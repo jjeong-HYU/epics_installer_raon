@@ -1,0 +1,491 @@
+#Mandatory macros:
+# CONTROLLER  OBC4V
+
+record (bi, "$(CONTROLLER):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@OBC.proto read_status($(ADDR=000),$(CONTROLLER)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):NOMINAL_SPEED_SET_POINT")
+{
+    field (CALC, "A")
+    field (EGU,  "RPM")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):STANDBY_SPEED_SET_POINT")
+{
+    field (CALC, "A")
+    field (EGU,  "RPM")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):PUMP_RUNNING_TIME")
+{
+    field (CALC, "A")
+    field (EGU,  "hours")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):ELECTRONIC_WORKING_TIME")
+{
+    field (CALC, "A")
+    field (EGU,  "hours")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):AT_SPEED_RELAY_THRESHOLD")
+{
+    field (CALC, "A")
+    field (EGU,  "Percentage")
+    field (LOPR, "1e$(MIN=3)")
+    field (HOPR, "1e$(MAX=50)")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):CONTROL_TEMPERATURE")
+{
+    field (CALC, "A")
+    field (EGU,  "Celsius")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):BEARING_THRESHOLD")
+{
+    field (CALC, "A")
+    field (EGU,  "Percentage")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):BEARING_CURRENT_VALUE")
+{
+    field (CALC, "A")
+    field (EGU,  "Percentage")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):STATUS")
+{
+    field (CALC, "A")
+    field (EGU,  "None")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):ORDER_STATUS")
+{
+    field (CALC, "A")
+    field (EGU, "None")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):PUMP_STATUS")
+{
+    field (CALC, "A")
+    field (EGU, "None")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):VALVE_STATUS")
+{
+    field (CALC, "A")
+    field (EGU, "None")
+    field (ASG,  "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):ORDER_STATUS6-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ORDER_STATUS CP")
+    field (CALC, "(A>>6)%2")
+    field (OUT, "$(CONTROLLER):ORDER_STATUS:INH PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):ORDER_STATUS5-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ORDER_STATUS CP")
+    field (CALC, "(A>>5)%2")
+    field (OUT, "$(CONTROLLER):ORDER_STATUS:LOCAL PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):ORDER_STATUS4-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ORDER_STATUS CP")
+    field (CALC, "(A>>4)%2")
+    field (OUT, "$(CONTROLLER):ORDER_STATUS:STOP PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):ORDER_STATUS3-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ORDER_STATUS CP")
+    field (CALC, "(A>>3)%2")
+    field (OUT, "$(CONTROLLER):ORDER_STATUS:SERIAL_FIELDBUS PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):ORDER_STATUS2-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ORDER_STATUS CP")
+    field (CALC, "(A>>2)%2")
+    field (OUT, "$(CONTROLLER):ORDER_STATUS:REM PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):ORDER_STATUS1-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ORDER_STATUS CP")
+    field (CALC, "(A>>1)%2")
+    field (OUT, "$(CONTROLLER):ORDER_STATUS:STBY PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):ORDER_STATUS0-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):ORDER_STATUS CP") 
+    field (CALC, "A%2")
+    field (OUT, "$(CONTROLLER):ORDER_STATUS:START PP")
+    field (ASG, "READONLY")
+}
+
+record (bi, "$(CONTROLLER):ORDER_STATUS:INH")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if mode INH activated")
+}
+
+record (bi, "$(CONTROLLER):ORDER_STATUS:LOCAL")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if HHR has the control")
+}
+
+record (bi, "$(CONTROLLER):ORDER_STATUS:STOP")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "Fault if it is in Fault status")
+}
+
+record (bi, "$(CONTROLLER):ORDER_STATUS:SERIAL_FIELDBUS")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if Profibus remote mode")
+}
+
+record (bi, "$(CONTROLLER):ORDER_STATUS:REM")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if the remote has the control")
+}
+
+record (bi, "$(CONTROLLER):ORDER_STATUS:STBY")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if it is in standby mode")
+}
+
+record (bi, "$(CONTROLLER):ORDER_STATUS:START")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if starting, or at speed")
+}
+
+record (calcout, "$(CONTROLLER):PUMP_STATUS6-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):PUMP_STATUS CP")
+    field (CALC, "(A>>6)%2")
+    field (OUT, "$(CONTROLLER):PUMP_STATUS:DEFECT PP")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):PUMP_STATUS5-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):PUMP_STATUS CP")
+    field (CALC, "(A>>5)%2")
+    field (OUT, "$(CONTROLLER):PUMP_STATUS:WARNING_TEMP PP")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):PUMP_STATUS4-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):PUMP_STATUS CP")
+    field (CALC, "(A>>4)%2")
+    field (OUT, "$(CONTROLLER):PUMP_STATUS:BRAKING PP")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):PUMP_STATUS3-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):PUMP_STATUS CP")
+    field (CALC, "(A>>3)%2")
+    field (OUT, "$(CONTROLLER):PUMP_STATUS:NOM_SPEED_TEMP PP")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):PUMP_STATUS2-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):PUMP_STATUS CP")
+    field (CALC, "(A>>2)%2")
+    field (OUT, "$(CONTROLLER):PUMP_STATUS:ACCELERATING PP")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):PUMP_STATUS1-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):PUMP_STATUS CP")
+    field (CALC, "(A>>1)%2")
+    field (OUT, "$(CONTROLLER):PUMP_STATUS:START PP")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):PUMP_STATUS0-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):PUMP_STATUS CP") 
+    field (CALC, "A%2")
+    field (OUT, "$(CONTROLLER):PUMP_STATUS:POWER PP")
+    field (ASG, "READONLY")
+}
+
+record (bi, "$(CONTROLLER):PUMP_STATUS:DEFECT")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if it is in fault")
+}
+
+record (bi, "$(CONTROLLER):PUMP_STATUS:WARNING_TEMP")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if Temp. warning detected")
+}
+
+record (bi, "$(CONTROLLER):PUMP_STATUS:BRAKING")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "")
+}
+
+record (bi, "$(CONTROLLER):PUMP_STATUS:NOM_SPEED_TEMP")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "")
+}
+
+record (bi, "$(CONTROLLER):PUMP_STATUS:ACCELERATING")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if it is in starting mode")
+}
+
+record (bi, "$(CONTROLLER):PUMP_STATUS:START")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON in starting or at speed.")
+}
+
+record (bi, "$(CONTROLLER):PUMP_STATUS:POWER")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "")
+}
+
+record (calcout, "$(CONTROLLER):VALVE_STATUS6-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):VALVE_STATUS CP")
+    field (CALC, "(A>>6)%2")
+    field (OUT, "$(CONTROLLER):VALVE_STATUS:AT_SPEED PP")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(CONTROLLER):VALVE_STATUS3-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):VALVE_STATUS CP")
+    field (CALC, "(A>>3)%2")
+    field (OUT, "$(CONTROLLER):VALVE_STATUS:WATER_VALVE PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):VALVE_STATUS2-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):VALVE_STATUS CP")
+    field (CALC, "(A>>2)%2")
+    field (OUT, "$(CONTROLLER):VALVE_STATUS:THERMOSTAT PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):VALVE_STATUS1-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):VALVE_STATUS CP")
+    field (CALC, "(A>>1)%2")
+    field (OUT, "$(CONTROLLER):VALVE_STATUS:AIR_INLET PP")
+    field (ASG, "READONLY")
+}
+record (calcout, "$(CONTROLLER):VALVE_STATUS0-UPDATER")
+{
+    field (INPA, "$(CONTROLLER):VALVE_STATUS CP") 
+    field (CALC, "A%2")
+    field (OUT, "$(CONTROLLER):VALVE_STATUS:ISOL_VALVE PP")
+    field (ASG, "READONLY")
+}
+
+record (bi, "$(CONTROLLER):VALVE_STATUS:AT_SPEED")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if at speed status")
+}
+
+record (bi, "$(CONTROLLER):VALVE_STATUS:WATER_VALVE")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if water valve opened")
+}
+
+record (bi, "$(CONTROLLER):VALVE_STATUS:THERMOSTAT")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if thermo is active")
+}
+
+record (bi, "$(CONTROLLER):VALVE_STATUS:AIR_INLET")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if air inlet valve opened")
+}
+
+record (bi, "$(CONTROLLER):VALVE_STATUS:ISOL_VALVE")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DESC, "ON if Isolation valve opened")
+}
+
+record (calc, "$(CONTROLLER):CURRENT_SPEED")
+{
+    field (CALC, "A")
+    field (EGU,  "RPM")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):RADIAL_Yh")
+{
+    field (CALC, "A")
+    field (EGU,  "None")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):RADIAL_Xh")
+{
+    field (CALC, "A")
+    field (EGU,  "None")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):RADIAL_Yb")
+{
+    field (CALC, "A")
+    field (EGU,  "None")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):RADIAL_Xb")
+{
+    field (CALC, "A")
+    field (EGU,  "None")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):AXIAL_Z")
+{
+    field (CALC, "A")
+    field (EGU,  "None")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):MOTOR_CURRENT_VOLTAGE")
+{
+    field (CALC, "A")
+    field (EGU,  "V")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):MOTOR_CURRENT")
+{
+    field (CALC, "A")
+    field (EGU,  "mA")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):PUMP_TEMP")
+{
+    field (CALC, "A")
+    field (EGU,  "Celsius")
+    field (ASG,  "READONLY")
+}
+
+
+record (calc, "$(CONTROLLER):CONTROLL_TEMP")
+{
+    field (CALC, "A")
+    field (EGU,  "Celsius")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(CONTROLLER):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@OBC.proto set_onoff($(ADDR=000),$(CONTROLLER)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+record (bo, "$(CONTROLLER):SET_RS232")
+{
+    field (OUT, "@OBC.proto set_rs232($(ADDR=000),$(CONTROLLER)) $(PORT)")
+    field (DTYP, "stream")
+}
+
+record (bo, "$(CONTROLLER):SET_NOMINAL_SPEED")
+{
+    field (OUT, "@OBC.proto set2nominalspeed($(ADDR=000),$(CONTROLLER)) $(PORT)")
+    field (DTYP, "stream")
+}
+
+record (bo, "$(CONTROLLER):SWITCH_SPEED_SET_POINT_TO_STANDBY")
+{
+    field (OUT, "@OBC.proto switchspeedsetpointtostandby($(ADDR=000),$(CONTROLLER)) $(PORT)")
+    field (DTYP, "stream")
+}
+
+record (ao, "$(CONTROLLER):DEFINE_SPEED_SET_IN_STANDBY")
+{
+    field (OUT, "@OBC.proto definespeedsetinstandby($(ADDR=000),$(CONTROLLER)) $(PORT)")
+    field (DTYP, "stream")
+}
+
+

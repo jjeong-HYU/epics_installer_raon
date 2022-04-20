@@ -1,0 +1,43 @@
+ReplyTimeout = 200;
+InTerminator = CR;
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+address = ESC "0\$1"; # for RS485
+
+set_onoff
+{
+    out "SDR%{0|1}!" CR;
+    in  "$!";
+}
+
+read_totaloperatetime
+{
+    out "RDT!" CR;
+    in "%(\$1:STATUS-OPERATING_TIME)d!";
+}
+
+read_pumpstatus
+{
+    out "RSS!" CR;
+    in "%(\$1:STATUS-PUMP_STATUS)d!";
+}
+
+read_failure
+{
+    out "RSA!" CR;
+    in "%(\$1:STATUS-FAILURE)s!";
+}
+
+read_outputfreq
+{
+    out "RRS!" CR;
+    in "%(\$1:STATUS-OUTPUT_FREQUENCY)d!";
+}
+
+read_status
+{
+    read_totaloperatetime;
+    read_pumpstatus;
+    read_failure;
+    read_outputfreq;
+}

@@ -1,0 +1,87 @@
+ReplyTimeout = 200;
+InTerminator = CR LF;
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+handshake { wait 10; in ACK; out ENQ; wait 10; }
+
+set_torr
+{
+    out "UNI,1" CR;
+    handshake;
+    in "1"; 
+}
+
+save
+{
+    out "SAV,1" CR;
+    handshake;
+    in "0000";
+}
+
+read_onoff
+{
+    out "SEN" CR;
+    handshake;
+    in "%(\$1:ONOFFG1.RVAL)d,"
+       "%(\$1:ONOFFG2.RVAL)d,"
+       "%(\$1:ONOFFG3.RVAL)d,"
+       "%(\$1:ONOFFG4.RVAL)d,"
+       "%(\$1:ONOFFG5.RVAL)d,"
+       "%(\$1:ONOFFG6.RVAL)d";
+}
+
+set_onoff1
+{
+    out "SEN,%{1|2},0,0,0,0,0" CR;
+    handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff2
+{
+    out "SEN,0,%{1|2},0,0,0,0" CR;
+    handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff3
+{
+    out "SEN,0,0,%{1|2},0,0,0" CR;
+    handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff4
+{
+    out "SEN,0,0,0,%{1|2},0,0" CR;
+    handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff5
+{
+    out "SEN,0,0,0,0,%{1|2},0" CR;
+    handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+set_onoff6
+{
+    out "SEN,0,0,0,0,0,%{1|2}" CR;
+    handshake;
+    in "%*d,%*d,%*d,%*d,%*d,%*d";
+}
+
+read_pressure_and_status
+{
+    out "PRX" CR;
+    handshake;
+    in "%(\$1:STATUS1)d,%(\$1:PRESSURE1.A)f,"
+       "%(\$1:STATUS2)d,%(\$1:PRESSURE2.A)f,"
+       "%(\$1:STATUS3)d,%(\$1:PRESSURE3.A)f,"
+       "%(\$1:STATUS4)d,%(\$1:PRESSURE4.A)f,"
+       "%(\$1:STATUS5)d,%(\$1:PRESSURE5.A)f,"
+       "%(\$1:STATUS6)d,%(\$1:PRESSURE6.A)f";
+}
+
+read_status
+{
+    set_torr;
+    read_onoff;
+    read_pressure_and_status;
+}

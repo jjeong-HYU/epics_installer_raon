@@ -1,0 +1,71 @@
+#Mandatory macros:
+# CONTROLLER  MaxGauge name
+# SENSOR      Vaccum sensor name
+
+# Optional Macros:
+# WARN        Warn (MINOR) level, defaults to Inf (No warning)
+# ALARM       Alarm (MAJOR) level, defaults to Inf (No alarm)
+# MIN         Minimal range exponent, defaults to -11
+# MAX         Maximal range exponent, defaults to 3
+# PREC        Precision, defaults to -3 (3 digit exponential)
+
+# Many records are set by either $(CONTROLLER):READ-STATUS or $(CONTROLLER):READ-INFOS
+
+record (bi, "$(CONTROLLER):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@TPG366.proto read_status($(CONTROLLER)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):PRESSURE$(CH)")
+{
+    field (INPB, "$(CONTROLLER):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "torr")
+    field (PREC, "$(PREC=-4)")
+    field (LOPR, "1e$(MIN=-11)")
+    field (HOPR, "1e$(MAX=3)")
+    field (HIGH, "$(WARN=Inf)")
+    field (HSV,  "MINOR")
+    field (HIHI, "$(ALARM=Inf)")
+    field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(CONTROLLER):STATUS$(CH)")
+{
+    field (ZRST, "OK")
+    field (ONST, "UNDERRANGE")
+    field (TWST, "OVERRANGE")    field (TWSV, "MINOR")
+    field (THST, "SENSOR ERROR") field (THSV, "INVALID")
+    field (FRST, "SENSOR OFF")   field (FRSV, "INVALID")
+    field (FVST, "NO SENSOR")    field (FVSV, "INVALID")
+    field (SXST, "ID ERROR")     field (SXSV, "INVALID")
+    field (SVST, "I/O ERROR")    field (SVSV, "INVALID")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(CONTROLLER):ONOFFG$(CH)")
+{
+    field (DTYP, "Raw Soft Channel")
+    field (ZRVL, "1")  field (ZRST, "OFF")
+    field (ONVL, "2")  field (ONST, "ON")
+    field (TWVL, "0")  field (TWST, "not switchable")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(CONTROLLER):ONOFF$(CH)")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@TPG366.proto set_onoff$(CH) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+    field (SDIS, "$(SENSOR):ONOFFG$(CH)") field (DISV, "2") # don't write if not switchable
+}

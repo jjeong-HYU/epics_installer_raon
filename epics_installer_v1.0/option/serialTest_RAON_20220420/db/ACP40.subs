@@ -1,0 +1,11 @@
+# RAON parameters
+
+global { CONTROLLER=musr:ACP40 }
+file ACP40.db
+{ pattern
+  {CH SENSOR                                         ADDR      PORT }
+  { 1 "$(SENSOR1=$(P=$(CONTROLLER)-)$(S1=SENSOR1))"  "$(ADDR1=101)"        "$(PORT1=ACP40-1_PORT)"}
+  { 2 "$(SENSOR2=$(P=$(CONTROLLER)-)$(S2=SENSOR2))"  "$(ADDR2=000)"        "$(PORT2=ACP40-2_PORT)"}
+#  { 3 "$(SENSOR3=$(P=$(CONTROLLER)-)$(S3=SENSOR3))"  103}
+}
+

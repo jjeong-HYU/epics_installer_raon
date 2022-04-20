@@ -1,0 +1,7 @@
+epicsEnvSet("IOC","iocserialTest")
+epicsEnvSet("TOP","/home/ubuntu/epics/serialTest_RAON_ACP40")
+epicsEnvSet("EPICS_BASE","/home/ubuntu/epics/base-7.0.6.1/")
+epicsEnvSet("SUPPORT","/home/ubuntu/epics/base-7.0.6.1//../support")
+epicsEnvSet("ASYN","/home/ubuntu/epics/base-7.0.6.1//../support/asyn")
+epicsEnvSet("STREAM","/home/ubuntu/epics/base-7.0.6.1//../support/StreamDevice")
+epicsEnvSet("CALC","/home/ubuntu/epics/base-7.0.6.1//../support/calc")

@@ -1,0 +1,61 @@
+ReplyTimeout = 200;
+InTerminator = CR;
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+set_standby
+{
+   out "%{0011000206000000010|0011000206111111016}" CR;
+    in "0011000206%(\$2:STANDBYG-UPDATER.A)6d""%3d";
+}
+
+
+set_onoff
+{
+    out "%{0011001006000000009|0011001006111111015}" CR;
+    in "0011001006%(\$2:ONOFFG-UPDATER.A)6d""%3d";
+}
+
+set_motorpump
+{
+    out "%{0011002306000000013|0011002306111111019}" CR;
+    in "0011002306%(\$2:MOTORPUMPG-UPDATER.A)6d""%3d";
+}
+
+read_rotationspeed
+{
+    out "0010030902=?107" CR;
+    in "0011030906"
+       "%(\$2:ROTATION_SPEED.A)6d"
+       "%3d";
+}
+
+read_settingspeed
+{
+
+    out "0010030802=?106" CR;
+    in "0011030806"
+       "%(\$2:SETTING_SPEED.A)6d"
+       "%3d";
+}
+
+read_status_word
+{
+    out "0010030302=?101" CR;
+    in "0011030306""%(\$2:STATUS-ERROR)6s"
+    "%3s";
+}
+
+read_status
+{
+    read_rotationspeed;
+    read_settingspeed;
+    read_status_word;
+}
+
+
+
+set_rs485
+{
+    out "0011006003002013" CR;
+    in "0011006003002013";
+}

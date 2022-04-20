@@ -1,0 +1,80 @@
+ReplyTimeout = 200;
+InTerminator = CR;
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+address = ESC "0\$1"; # for RS485
+
+
+
+set2nominalspeed
+{
+    out "#\$1NSP" CR;
+    in "#\$1,OK"; 
+}
+
+definespeedsetinstandby
+{
+    out "#\$1RPM,%05d" CR;
+    in "#\$1,OK";
+}
+
+switchspeedsetpointtostandby
+{
+    out "#\$1SBY" CR;
+    in "#\$1,OK";
+}
+
+set_rs232
+{
+    out "#\$1OPT14,2" CR;
+    in "#\$1,OK";
+}
+
+set_onoff
+{
+    out "#\$1%{TMPOFF|TMPON}" CR;
+    in  "#\$1,OK";
+}
+
+read_statusLEV
+{
+    out "#\$1LEV10" CR;
+    in "#\$1,"
+       "%(\$2:STATUS-NOMINAL_SPEED_SET_POINT.A)d,"
+       "%(\$2:STATUS-STANDBY_SPEED_SET_POINT.A)d,"
+       "00000,"
+       "0,"
+       "%(\$2:STATUS-PUMP_RUNNING_TIME.A)d,"
+       "%(\$2:STATUS-ELECTRONIC_WORKING_TIME.A)d,"
+       "00000,"
+       "0000,"
+       "0000,"
+       "%(\$2:STATUS-AT_SPEED_RELAY_THRESHOLD.A)d,"
+       "%(\$2:STATUS-CONTROL_TEMPERATURE.A)d,"
+       "%(\$2:STATUS-BEARING_THRESHOLD.A)d,"
+       "%(\$2:STATUS-BEARING_CURRENT_VALUE.A)d";
+}
+
+read_statusSTA
+{
+    out "#\$1STA" CR;
+    in "#\$1,"
+       "%(\$2:STATUS-ORDER_STATUS.A)01r%(\$2:STATUS-PUMP_STATUS.A)01r%(\$2:STATUS-VALVE_STATUS.A)01r,"
+       "%(\$2:CURRENT_SPEED.A)d,"
+       "%(\$2:STATUS-RADIAL_Yh.A)d,"
+       "%(\$2:STATUS-RADIAL_Xh.A)d,"
+       "%(\$2:STATUS-RADIAL_Yb.A)d,"
+       "%(\$2:STATUS-RADIAL_Xb.A)d,"
+       "%(\$2:STATUS-AXIAL_Z.A)d,"
+       "%(\$2:STATUS-MOTOR_CURRENT_VOLTAGE.A)d,"
+       "%(\$2:STATUS-MOTOR_CURRENT.A)d,"
+       "%(\$2:STATUS-PUMP_TEMP.A)d,"
+       "%(\$2:STATUS-CONTROLL_TEMP.A)d,"
+       "%032d";
+}
+
+read_status
+{
+    read_statusLEV;
+    read_statusSTA;
+}
