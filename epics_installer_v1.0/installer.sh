@@ -1,5 +1,11 @@
 #! /bin/bash
 
+apt -y update
+apt -y upgrade
+
+apt install make
+apt install git
+
 # .. env variable setting ..
 
 INSTALLER_PATH=${PWD##*/}
