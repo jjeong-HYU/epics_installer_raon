@@ -1,0 +1,36 @@
+ReplyTimeout = 500;
+InTerminator = CR;
+
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+#address = ESC "0\$1"; # for RS485
+
+set_onoff
+{
+    out "#\$1%{SYSOFF|SYSON}" CR;
+    in  "#\$1 OK..";
+}
+
+read_status
+{
+    out "#\$1STA" CR;
+    in "#\$1"
+       " "
+       "%(\$2:STATUS-ONOFF)1d"
+       "000000000"
+       "%r"
+       " 0000 0000 000 000 000 0000 00 000000"
+       "%(\$2:STATUS-FrequencyControlDefect)01d"
+       "%02r"
+       "%(\$2:STATUS-MotorTemperatureDefect)01d"
+       "%03r"
+       "%(\$2:STATUS-MaintenanceDefect)01d"
+       "%012r";
+}
+
+set_address
+{
+    out "#\$1ADR%d" CR;
+    in "#%d OK..";
+}
+

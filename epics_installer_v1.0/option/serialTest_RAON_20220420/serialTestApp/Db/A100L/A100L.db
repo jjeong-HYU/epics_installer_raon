@@ -1,0 +1,63 @@
+#Mandatory macros:
+# CONTROLLER  ACP40
+
+record (bi, "$(SENSOR):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@A100L.proto read_status($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(SENSOR):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@A100L.proto set_onoff($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+    #field (SDIS, "$(SENSOR):ONOFFG$(CH)") field (DISV, "2") # don't write if not switchable
+}
+
+
+record (ao, "$(SENSOR):SET-ADDR")
+{
+    field (DTYP, "stream")
+    field (OUT, "@A100L.proto set_address($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+
+record (bi, "$(SENSOR):STATUS-ONOFF")
+{
+    field (ZNAM, "Pump stopped")
+    field (ONAM, "Pump running")
+}
+
+record (mbbi, "$(SENSOR):STATUS-FrequencyControlDefect")
+{
+    field (ZRST, "OK")
+    field (ONST, "-")
+    field (TWST, "Hazard")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(SENSOR):STATUS-MotorTemperatureDefect")
+{
+    field (ZRST, "OK")
+    field (ONST, "Warning")
+    field (TWST, "Hazard")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(SENSOR):STATUS-MaintenanceDefect")
+{
+    field (ZRST, "OK")
+    field (ONST, "Warning")
+    field (TWST, "Hazard")
+    field (ASG,  "READONLY")
+}
+

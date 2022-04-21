@@ -1,0 +1,249 @@
+#Mandatory macros:
+# CONTROLLER  ACP40
+
+record (bi, "$(SENSOR):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@ACP40.proto read_status($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (ai, "$(SENSOR):READ-ADDR")
+{
+    field (DTYP, "stream")
+    field (INP, "@ACP40.proto read_address($(ADDR),$(SENSOR)) $(PORT)")
+    #field (SCAN, "$(FASTSCAN=1 second)")
+}
+
+record (ao, "$(SENSOR):SET-ADDR")
+{
+    field (DTYP, "stream")
+    field (OUT, "@ACP40.proto set_address($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (calc, "$(SENSOR):STATUS-PUMP_ROTATION_SPEED")
+{
+    field (CALC, "A")
+    field (EGU,  "min-1")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(SENSOR):STATUS-MOTOR_POWER")
+{
+    #field (INPB, "$(SENSOR):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "Watt")
+    #field (PREC, "$(PREC=-4)")
+    #field (LOPR, "1e$(MIN=-11)")
+    #field (HOPR, "1e$(MAX=3)")
+    #field (HIGH, "$(WARN=Inf)")
+    #field (HSV,  "MINOR")
+    #field (HIHI, "$(ALARM=Inf)")
+    #field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(SENSOR):STATUS-RESERVED")
+{
+    #field (INPB, "$(SENSOR):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "None")
+    #field (PREC, "$(PREC=-4)")
+    #field (LOPR, "1e$(MIN=-11)")
+    #field (HOPR, "1e$(MAX=3)")
+    #field (HIGH, "$(WARN=Inf)")
+    #field (HSV,  "MINOR")
+    #field (HIHI, "$(ALARM=Inf)")
+    #field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(SENSOR):STATUS-FREQUENCY_CONVERTER_TEMP")
+{
+    #field (INPB, "$(SENSOR):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "Celsius")
+    #field (PREC, "$(PREC=-4)")
+    #field (LOPR, "1e$(MIN=-11)")
+    #field (HOPR, "1e$(MAX=3)")
+    #field (HIGH, "$(WARN=Inf)")
+    #field (HSV,  "MINOR")
+    #field (HIHI, "$(ALARM=Inf)")
+    #field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(SENSOR):STATUS-RESERVER")
+{
+    #field (INPB, "$(SENSOR):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "None")
+    #field (PREC, "$(PREC=-4)")
+    #field (LOPR, "1e$(MIN=-11)")
+    #field (HOPR, "1e$(MAX=3)")
+    #field (HIGH, "$(WARN=Inf)")
+    #field (HSV,  "MINOR")
+    #field (HIHI, "$(ALARM=Inf)")
+    #field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(SENSOR):STATUS-PUMP_OPERATING_TIME")
+{
+    #field (INPB, "$(SENSOR):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "hour")
+    #field (PREC, "$(PREC=-4)")
+    #field (LOPR, "1e$(MIN=-11)")
+    #field (HOPR, "1e$(MAX=3)")
+    #field (HIGH, "$(WARN=Inf)")
+    #field (HSV,  "MINOR")
+    #field (HIHI, "$(ALARM=Inf)")
+    #field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(SENSOR):STATUS-STATUS")
+{
+    #field (INPB, "$(SENSOR):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "None")
+    #field (PREC, "$(PREC=-4)")
+    #field (LOPR, "1e$(MIN=-11)")
+    #field (HOPR, "1e$(MAX=3)")
+    #field (HIGH, "$(WARN=Inf)")
+    #field (HSV,  "MINOR")
+    #field (HIHI, "$(ALARM=Inf)")
+    #field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+record (calcout, "$(SENSOR):STATUS-ONOFF-UPDATER")
+{
+    field (INPA, "$(SENSOR):STATUS-STATUS CP")
+    field (CALC, "(A>>3)%2")
+    field (OUT,  "$(SENSOR):STATUS-ONOFF PP")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-ONOFF")
+{
+    field (ZNAM, "Pump stopped")
+    field (ONAM, "Pump running")
+}
+
+record (calcout, "$(SENSOR):STATUS-SPEEDMODE-UPDATER")
+{
+    field (INPA, "$(SENSOR):STATUS-STATUS CP")
+    field (CALC, "(A>>2)%2")
+    field (OUT,  "$(SENSOR):STATUS-SPEEDMODE PP")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-SPEEDMODE")
+{
+    field (ZNAM, "set speed set point")
+    field (ONAM, "set nominal speed")
+}
+
+record (calcout, "$(SENSOR):STATUS-whetherSPEEDREACHED-UPDATER")
+{
+    field (INPA, "$(SENSOR):STATUS-STATUS CP")
+    field (CALC, "(A>>1)%2")
+    field (OUT,  "$(SENSOR):STATUS-whetherSPEEDREACHED PP")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-whetherSPEEDREACHED")
+{
+    field (ZNAM, "Not reached")
+    field (ONAM, "Stand-by speed reached")
+}
+
+record (bi, "$(SENSOR):STATUS-whetherMOTOR_CURRENT_TOOHIGH")
+{
+    field (ZNAM, "Normal")
+    field (ONAM, "Motor current too high.")
+}
+
+record (calc, "$(SENSOR):STATUS-FAULT")
+{
+    field (CALC, "A")
+    field (EGU, "None")
+    field (ASG, "READONLY")
+}
+
+record (calcout, "$(SENSOR):STATUS-FAULT-POWER_TRANSISTOR_POWERED-UPDATER")
+{
+    field (INPA, "$(SENSOR):STATUS-FAULT CP")
+    field (CALC, "(A>>5)%2")
+    field (OUT,  "$(SENSOR):STATUS-FAULT-POWER_TRANSISTOR_POWERED PP")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-FAULT-POWER_TRANSISTOR_POWERED")
+{
+    field (ZNAM, "Normal")
+    field (ONAM, "NOT Powered")
+}
+
+record (calcout, "$(SENSOR):STATUS-FAULT-MOTOR_TEMP_TOOHIGH-UPDATER")
+{
+    field (INPA, "$(SENSOR):STATUS-FAULT CP")
+    field (CALC, "(A>>4)%2")
+    field (OUT,  "$(SENSOR):STATUS-FAULT-MOTOR_TEMP_TOOHIGH PP")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-FAULT-MOTOR_TEMP_TOOHIGH")
+{
+    field (ZNAM, "Normal")
+    field (ONAM, "Too high")
+}
+
+record (calcout, "$(SENSOR):STATUS-FAULT-MOTOR_CURRENT_TOOHIGH-UPDATER")
+{
+    field (INPA, "$(SENSOR):STATUS-FAULT CP")
+    field (CALC, "(A>>3)%2")
+    field (OUT,  "$(SENSOR):STATUS-FAULT-MOTOR_CURRENT_TOOHIGH PP")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-FAULT-MOTOR_CURRENT_TOOHIGH")
+{
+    field (ZNAM, "Normal")
+    field (ONAM, "Too high")
+}
+
+
+record (calc, "$(SENSOR):STATUS-ALERT")
+{
+    #field (INPB, "$(SENSOR):STATUS$(CH) CP MS")
+    field (CALC, "A")
+    field (EGU,  "None")
+    #field (PREC, "$(PREC=-4)")
+    #field (LOPR, "1e$(MIN=-11)")
+    #field (HOPR, "1e$(MAX=3)")
+    #field (HIGH, "$(WARN=Inf)")
+    #field (HSV,  "MINOR")
+    #field (HIHI, "$(ALARM=Inf)")
+    #field (HHSV, "MAJOR")
+    field (ASG,  "READONLY")
+}
+
+
+record (bo, "$(SENSOR):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@ACP40.proto set_onoff($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+

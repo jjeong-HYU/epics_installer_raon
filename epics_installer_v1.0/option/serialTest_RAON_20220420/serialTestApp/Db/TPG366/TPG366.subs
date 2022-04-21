@@ -1,0 +1,13 @@
+# RAON parameters
+
+global { CONTROLLER=musr:TPG366 PORT=TPG366PORT }
+file TPG366.db
+{ pattern
+  {CH SENSOR                                                PREC                   MIN                  MAX                   WARN                    ALARM                   }
+  { 1 "$(SENSOR1=$(P=$(CONTROLLER)-)$(S1=SENSOR1))" "$(PREC1=$(PREC_=-3))" "$(MIN1=$(MIN_=-11))" "$(MAX1=$(MAX_=3))" "$(WARN1=$(WARN_=Inf))" "$(ALARM1=$(ALARM_=Inf))" }
+  { 2 "$(SENSOR2=$(P=$(CONTROLLER)-)$(S2=SENSOR2))" "$(PREC2=$(PREC_=-3))" "$(MIN2=$(MIN_=-11))" "$(MAX2=$(MAX_=3))" "$(WARN2=$(WARN_=Inf))" "$(ALARM2=$(ALARM_=Inf))" }
+  { 3 "$(SENSOR3=$(P=$(CONTROLLER)-)$(S3=SENSOR3))" "$(PREC3=$(PREC_=-3))" "$(MIN3=$(MIN_=-11))" "$(MAX3=$(MAX_=3))" "$(WARN3=$(WARN_=Inf))" "$(ALARM3=$(ALARM_=Inf))" }
+  { 4 "$(SENSOR4=$(P=$(CONTROLLER)-)$(S4=SENSOR4))" "$(PREC4=$(PREC_=-3))" "$(MIN4=$(MIN_=-11))" "$(MAX4=$(MAX_=3))" "$(WARN4=$(WARN_=Inf))" "$(ALARM4=$(ALARM_=Inf))" }
+  { 5 "$(SENSOR5=$(P=$(CONTROLLER)-)$(S5=SENSOR5))" "$(PREC5=$(PREC_=-3))" "$(MIN5=$(MIN_=-11))" "$(MAX5=$(MAX_=3))" "$(WARN5=$(WARN_=Inf))" "$(ALARM5=$(ALARM_=Inf))" }
+  { 6 "$(SENSOR6=$(P=$(CONTROLLER)-)$(S6=SENSOR6))" "$(PREC6=$(PREC_=-3))" "$(MIN6=$(MIN_=-11))" "$(MAX6=$(MAX_=3))" "$(WARN6=$(WARN_=Inf))" "$(ALARM6=$(ALARM_=Inf))" }
+}
