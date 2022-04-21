@@ -1,6 +1,6 @@
 #RELEASE Location of external products
 
-SUPPORT=${HOME}/epics/support
+SUPPORT=/epics/support
 
 #  IPAC is only necessary if support for Greensprings IP488 is required
 #  IPAC release V2-7 or later is required.
