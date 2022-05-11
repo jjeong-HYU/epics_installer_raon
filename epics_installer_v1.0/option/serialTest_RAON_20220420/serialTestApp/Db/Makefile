@@ -25,6 +25,8 @@ DB_INSTALLS += $(TOP)/serialTestApp/Db/ACP40/ACP40.subs
 DB_INSTALLS += $(TOP)/serialTestApp/Db/A100L/A100L.db
 DB_INSTALLS += $(TOP)/serialTestApp/Db/A100L/A100L.subs
 DB_INSTALLS += $(TOP)/serialTestApp/Db/A100L/A100L.proto
+DB_INSTALLS += $(TOP)/serialTestApp/Db/OsakaPump/OsakaPump.proto
+DB_INSTALLS += $(TOP)/serialTestApp/Db/OsakaPump/OsakaPump.proto
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
 # <anyname>_template = <templatename>
