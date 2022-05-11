@@ -1,10 +1,11 @@
 #! /bin/bash
+set -e
 
 apt -y update
 apt -y upgrade
 
-apt install make
-apt install git gcc g++ build-essential
+apt -y install make
+apt -y install git gcc g++ build-essential
 
 # .. env variable setting ..
 
