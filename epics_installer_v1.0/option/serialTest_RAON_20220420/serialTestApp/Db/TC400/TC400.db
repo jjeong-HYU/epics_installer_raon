@@ -15,7 +15,7 @@ record (stringout, "$(CONTROLLER):READ-STATUS")
 {
 # reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
     field (DTYP, "stream")
-    field (INP,  "@TC400.proto read_status($(ADDR=100),$(CONTROLLER)) $(PORT)")
+    field (OUT,  "@TC400.proto read_status($(ADDR=100),$(CONTROLLER)) $(PORT)")
     field (SCAN, "$(FASTSCAN=1 second)")
 }
 
@@ -26,7 +26,7 @@ record (stringin, "$(CONTROLLER):STATUS-ERROR")
 record (ao, "$(CONTROLLER):SET_RS485")
 {
     field (DTYP, "stream")
-    field (INP, "@TC400.proto set_rs485 $(PORT)")
+    field (OUT, "@TC400.proto set_rs485 $(PORT)")
     field (SCAN, "I/O Intr")
 }
 
