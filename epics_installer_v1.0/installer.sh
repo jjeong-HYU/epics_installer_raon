@@ -23,8 +23,8 @@ if [ $option_env -eq 1 ]; then
     echo "Adding setEpicsEnv.sh to ./bashrc? (1:yes / 2:no): "
     read option_bashrc
     if [ $option_bashrc -eq 1 ]; then
-        export EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1
-        echo 'source '${EPICS_BASE}'/setEpicsEnv.sh' >> ~/.bashrc
+        export 
+        echo 'source '${EPICS_PATH}'/base-7.0.6.1/setEpicsEnv.sh' >> ~/.bashrc
     fi
 fi
 }
