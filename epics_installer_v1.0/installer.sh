@@ -95,8 +95,8 @@ echo '-include $(TOP)/../RELEASE.local' >> configure/RELEASE
 echo '-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local' >> configure/RELEASE
 echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 
-filecheck = 'fine /usr/include/rpc -name rpc.h'
-if [ "$filecheck" ];then
+filecheck="/usr/include/rpc/rpc.h"
+if [ -e $filecheck ];then
     make
 else
     sudo apt -y install libntirpc-dev
