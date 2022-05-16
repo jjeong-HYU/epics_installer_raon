@@ -15,7 +15,10 @@ Install_base(){
 
 # ..epics install..
 
-mkdir ${EPICS_PATH}
+mkdir ${EPICS_PATH_TOP}/EPICS_DIR
+export EPICS_PATH = ${EPICS_PATH_TOP}/EPICS_DIR
+
+
 
 cd ${EPICS_PATH}
 
@@ -140,7 +143,14 @@ make clean
 make
 }
 
-
+Install_whole(){
+Install_pre
+Install_base
+Install_calc
+Install_asyn
+Install_stream
+Install_IOC 
+}
 
 
 # .. env variable setting ..
@@ -148,7 +158,7 @@ make
 INSTALLER_PATH=${PWD}
 
 echo "Type the path where the system is installed"
-read -p "Path: " EPICS_PATH
+read -p "Path: " EPICS_PATH_TOP
 
 while :
 do
@@ -164,7 +174,7 @@ do
     read -p "Type your option: " option_install
     case ${option_install} in
         0) Install_pre ;;
-        1) Install_pre Install_base Install_calc Install_asyn Install_stream Install_IOC ;;
+        1) Install_whole ;;
         2) Install_base ;;
         3) Install_calc ;;
         4) Install_asyn ;;
