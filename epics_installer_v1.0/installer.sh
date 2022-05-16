@@ -159,6 +159,7 @@ INSTALLER_PATH=${PWD}
 
 echo "Type the path where the system is installed"
 read -p "Path: " EPICS_PATH_TOP
+export EPICS_PATH=${EPICS_PATH_TOP}/EPICS_DIR
 
 while :
 do
