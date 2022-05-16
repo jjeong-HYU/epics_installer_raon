@@ -90,7 +90,11 @@ echo '-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local' >> configure/RELEASE
 echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 
 make
+if [ $? -eq 0 ];then
 
+else
+    sed -i 's/# TIRPC=YES/TIRPC=YES/g' ${EPICS_PATH}/support/asyn/configure/CONFIG_SITE
+fi
 }
 
 Install_stream(){
