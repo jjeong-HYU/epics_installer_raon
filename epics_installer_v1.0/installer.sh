@@ -32,7 +32,7 @@ make
 
 echo "Create setEpicsEnv.sh file? (1:yes / 2:no): "
 read option_env
-if [$option_env -eq 1]; then
+if [ $option_env -eq 1 ]; then
     touch setEpicsEnv.sh
     cat /dev/null > setEpicsEnv.sh
     echo 'export EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> setEpicsEnv.sh
@@ -40,7 +40,7 @@ if [$option_env -eq 1]; then
     echo 'export PATH=${EPICS_BASE}/bin/${EPICS_HOST_ARCH}:${PATH}' >> setEpicsEnv.sh
     echo "Adding setEpicsEnv.sh to ./bashrc? (1:yes / 2:no): "
     read option_bashrc
-    if [$option_bashrc -eq 1]; then
+    if [ $option_bashrc -eq 1 ]; then
         echo 'source ${EPICS_BASE}/setEpicsEnv.sh' >> ~/.bashrc
     fi
 fi
