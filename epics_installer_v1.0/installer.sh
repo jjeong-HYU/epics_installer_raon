@@ -30,9 +30,18 @@ fi
 
 Install_base(){
 
+basecheck="${EPICS_PATH_TOP}/EPICS_DIR"
+if [ -e $basecheck ];then
+    rm -rf ${EPICS_PATH_TOP}/EPICS_DIR
+    mkdir ${EPICS_PATH_TOP}/EPICS_DIR
+else
+    mkdir ${EPICS_PATH_TOP}/EPICS_DIR
+fi
+
 # ..epics install..
 
-mkdir ${EPICS_PATH_TOP}/EPICS_DIR
+
+
 export EPICS_PATH=${EPICS_PATH_TOP}/EPICS_DIR
 
 
@@ -57,9 +66,16 @@ mkdir ${EPICS_PATH}/support
 
 
 Install_calc(){
-# .. calc install ..
 
-cd ${EPICS_PATH}/support
+calccheck="${EPICS_PATH}/support/calc"
+if [ -e $calccheck ];then
+    rm -rf ${EPICS_PATH}/support/calc
+    cd ${EPICS_PATH}/support
+else
+    cd ${EPICS_PATH}/support
+fi
+
+# .. calc install ..
 
 git clone https://github.com/epics-modules/calc
 
@@ -81,7 +97,13 @@ make
 Install_asyn(){
 # .. asyn install ..
 
-cd ${EPICS_PATH}/support
+asyncheck="${EPICS_PATH}/support/asyn"
+if [ -e $asyncheck ];then
+    rm -rf ${EPICS_PATH}/support/asyn
+    cd ${EPICS_PATH}/support
+else
+    cd ${EPICS_PATH}/support
+fi
 
 git clone https://github.com/epics-modules/asyn
 
@@ -107,8 +129,13 @@ fi
 
 Install_stream(){
 # .. streamdevice install ..
-
-cd ${EPICS_PATH}/support
+streamcheck="${EPICS_PATH}/support/StreamDevice"
+if [ -e $streamcheck ];then
+    rm -rf ${EPICS_PATH}/support/StreamDevice
+    cd ${EPICS_PATH}/support
+else
+    cd ${EPICS_PATH}/support
+fi
 
 git clone https://github.com/paulscherrerinstitute/StreamDevice.git
 
