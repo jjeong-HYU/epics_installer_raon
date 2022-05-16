@@ -89,11 +89,13 @@ echo '-include $(TOP)/../RELEASE.local' >> configure/RELEASE
 echo '-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local' >> configure/RELEASE
 echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 
-make
-if [ $? -eq 0 ];then
-    echo 'asyn compile done!'
+filecheck = 'fine /usr/include/rpc -name rpc.h'
+if [ "$filecheck" ];then
+    make
 else
+    sudo apt -y install libntirpc-dev
     sed -i 's/# TIRPC=YES/TIRPC=YES/g' ${EPICS_PATH}/support/asyn/configure/CONFIG_SITE
+    make
 fi
 }
 
