@@ -56,7 +56,14 @@ git clone https://github.com/epics-modules/calc
 
 cd calc
 
-cp ${INSTALLER_PATH}/option/calc/RELEASE ./configure/
+rm configure/RELEASE
+touch configure/RELEASE
+echo 'TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top' >> configure/RELEASE
+echo 'SUPPORT='${EPICS_PATH}'/support' >> configure/RELEASE
+echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.local' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local' >> configure/RELEASE
+echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 
 make
 
@@ -70,8 +77,14 @@ cd ${EPICS_PATH}/support
 git clone https://github.com/epics-modules/asyn
 
 cd asyn
-
-cp ${INSTALLER_PATH}/option/asyn/RELEASE ./configure/
+rm configure/RELEASE
+touch configure/RELEASE
+echo 'SUPPORT='${EPICS_PATH}'/support' >> configure/RELEASE
+echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE
+echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.local' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local' >> configure/RELEASE
+echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 
 make
 
@@ -88,7 +101,17 @@ cd StreamDevice/
 
 rm GNUmakefile
 
-cp ${INSTALLER_PATH}/option/StreamDevice/RELEASE ./configure/
+rm configure/RELEASE
+touch configure/RELEASE
+echo 'TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top' >> configure/RELEASE
+echo 'SUPPORT=$(TOP)/..' >> configure/RELEASE
+echo '-include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)' >> configure/RELEASE
+echo 'ASYN=$(SUPPORT)/asyn' >> configure/RELEASE
+echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE
+echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.local' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local' >> configure/RELEASE
+echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 
 make
 }
@@ -102,6 +125,15 @@ cd ${EPICS_PATH}
 cp ${INSTALLER_PATH}/option/serialTest_RAON_20220420 . -r
 
 cd serialTest_RAON_20220420
+
+rm configure/RELEASE
+touch configure/RELEASE
+echo 'TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top' >> configure/RELEASE
+echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
+echo 'SUPPORT=$(EPICS_BASE)/../support' >> configure/RELEASE
+echo 'ASYN=$(SUPPORT)/asyn' >> configure/RELEASE
+echo 'STREAM=$(SUPPORT)/StreamDevice' >> configure/RELEASE
+echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE' >> configure/RELEASE
 
 make clean
 
