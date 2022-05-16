@@ -11,6 +11,23 @@ apt -y install git gcc g++ build-essential
 
 }
 
+create_env(){
+echo "Create setEpicsEnv.sh file? (1:yes / 2:no): "
+read option_env
+if [ $option_env -eq 1 ]; then
+    touch ${EPICS_PATH_TOP}/EPICS_DIR/base-7.0.6.1/setEpicsEnv.sh
+    cat /dev/null > ${EPICS_PATH_TOP}/EPICS_DIR/base-7.0.6.1/setEpicsEnv.sh
+    echo 'export EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> ${EPICS_PATH_TOP}/EPICS_DIR/base-7.0.6.1/setEpicsEnv.sh
+    echo 'export EPICS_HOST_ARCH=$(${EPICS_BASE}/startup/EpicsHostArch)' >> ${EPICS_PATH_TOP}/EPICS_DIR/base-7.0.6.1/setEpicsEnv.sh
+    echo 'export PATH=${EPICS_BASE}/bin/${EPICS_HOST_ARCH}:${PATH}' >> ${EPICS_PATH_TOP}/EPICS_DIR/base-7.0.6.1/setEpicsEnv.sh
+    echo "Adding setEpicsEnv.sh to ./bashrc? (1:yes / 2:no): "
+    read option_bashrc
+    if [ $option_bashrc -eq 1 ]; then
+        echo 'source ${EPICS_BASE}/setEpicsEnv.sh' >> ~/.bashrc
+    fi
+fi
+}
+
 Install_base(){
 
 # ..epics install..
@@ -30,25 +47,14 @@ cd base-7.0.6.1
 
 make
 
-echo "Create setEpicsEnv.sh file? (1:yes / 2:no): "
-read option_env
-if [ $option_env -eq 1 ]; then
-    touch setEpicsEnv.sh
-    cat /dev/null > setEpicsEnv.sh
-    echo 'export EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> setEpicsEnv.sh
-    echo 'export EPICS_HOST_ARCH=$(${EPICS_BASE}/startup/EpicsHostArch)' >> setEpicsEnv.sh
-    echo 'export PATH=${EPICS_BASE}/bin/${EPICS_HOST_ARCH}:${PATH}' >> setEpicsEnv.sh
-    echo "Adding setEpicsEnv.sh to ./bashrc? (1:yes / 2:no): "
-    read option_bashrc
-    if [ $option_bashrc -eq 1 ]; then
-        echo 'source ${EPICS_BASE}/setEpicsEnv.sh' >> ~/.bashrc
-    fi
-fi
+create_env
 
 # .. support ..
 
 mkdir ${EPICS_PATH}/support
 }
+
+
 
 Install_calc(){
 # .. calc install ..
