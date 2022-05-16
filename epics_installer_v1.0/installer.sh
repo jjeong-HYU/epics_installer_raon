@@ -25,6 +25,7 @@ if [ $option_env -eq 1 ]; then
     if [ $option_bashrc -eq 1 ]; then
         export 
         echo 'source '${EPICS_PATH}'/base-7.0.6.1/setEpicsEnv.sh' >> ~/.bashrc
+        source ~/.bashrc
     fi
 fi
 }
