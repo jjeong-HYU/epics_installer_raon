@@ -133,7 +133,7 @@ echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
 echo 'SUPPORT=$(EPICS_BASE)/../support' >> configure/RELEASE
 echo 'ASYN=$(SUPPORT)/asyn' >> configure/RELEASE
 echo 'STREAM=$(SUPPORT)/StreamDevice' >> configure/RELEASE
-echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE'
+echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE
 
 make clean
 
