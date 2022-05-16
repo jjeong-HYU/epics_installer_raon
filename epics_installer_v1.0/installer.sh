@@ -183,6 +183,7 @@ do
     echo "4. Asyn(Should be installed after calc was installed)"
     echo "5. StreamDevice(Should be installed after calc,asyn was installed)"
     echo "6. RAON_Serial_IOC(Should be installed after whole system was installed)"
+    echo "7. Create setEpicsEnv.sh in base folder(Should be executed after base was installed)"
     echo "9. exit"
     read -p "Type your option: " option_install
     case ${option_install} in
@@ -193,6 +194,7 @@ do
         4) Install_asyn ;;
         5) Install_stream ;;
         6) Install_IOC ;;
+        7) Create_env ;;
         9) exit 0 ;;
     esac
 done
