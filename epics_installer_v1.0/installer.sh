@@ -194,7 +194,7 @@ do
         4) Install_asyn ;;
         5) Install_stream ;;
         6) Install_IOC ;;
-        7) Create_env ;;
+        7) create_env ;;
         9) exit 0 ;;
     esac
 done
