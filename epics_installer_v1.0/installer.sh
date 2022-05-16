@@ -91,7 +91,7 @@ echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 
 make
 if [ $? -eq 0 ];then
-
+    echo 'asyn compile done!'
 else
     sed -i 's/# TIRPC=YES/TIRPC=YES/g' ${EPICS_PATH}/support/asyn/configure/CONFIG_SITE
 fi
