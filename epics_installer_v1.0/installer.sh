@@ -116,7 +116,7 @@ echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 make
 }
 
-Install_IOC{
+Install_IOC(){
 
 # .. IOC install ..
 
