@@ -16,7 +16,7 @@ Install_base(){
 # ..epics install..
 
 mkdir ${EPICS_PATH_TOP}/EPICS_DIR
-export EPICS_PATH = ${EPICS_PATH_TOP}/EPICS_DIR
+export EPICS_PATH=${EPICS_PATH_TOP}/EPICS_DIR
 
 
 
