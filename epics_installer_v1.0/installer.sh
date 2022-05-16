@@ -25,11 +25,13 @@ cd base-7.0.6.1
 
 make
 
-echo 'export EPICS_BASE=/epics/base-7.0.6.1' >> ~/.bashrc 
-echo 'export EPICS_HOST_ARCH=$(${EPICS_BASE}/startup/EpicsHostArch)' >> ~/.bashrc 
-echo 'export PATH=${EPICS_BASE}/bin/${EPICS_HOST_ARCH}:${PATH}' >> ~/.bashrc 
+touch setEpicsEnv.sh
+cat /dev/null > setEpicsEnv.sh
+echo 'export EPICS_BASE=/epics/base-7.0.6.1' >> setEpicsEnv.sh
+echo 'export EPICS_HOST_ARCH=$(${EPICS_BASE}/startup/EpicsHostArch)' >> setEpicsEnv.sh
+echo 'export PATH=${EPICS_BASE}/bin/${EPICS_HOST_ARCH}:${PATH}' >> setEpicsEnv.sh
 
-source ~/.bashrc
+echo 'source ${EPICS_BASE}/setEpicsEnv.sh' >> ~/.bashrc
 
 # .. support ..
 
