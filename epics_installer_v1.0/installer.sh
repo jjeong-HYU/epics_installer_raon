@@ -551,6 +551,45 @@ echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
 make
 }
 
+Install_seq()
+{
+
+# .. re2c install ..
+cd ${EPICS_PATH}/support
+wget https://github.com/skvadrik/re2c/archive/refs/tags/3.0.tar.gz
+tar zxvf 3.0.tar.gz
+cd re2c-3.0
+mkdir .build
+cd .build
+cmake ..
+cmake --build .
+
+# .. sequencer install ..
+seqcheck="${EPICS_PATH}/support/seq-${SEQUENCER_VERSION}"
+if [ -e $seqcheck ];then
+    rm -rf ${EPICS_PATH}/support/seq-${SEQUENCER_VERSION}
+    cd ${EPICS_PATH}/support
+else
+    cd ${EPICS_PATH}/support
+fi
+
+wget https://www-csr.bessy.de/control/SoftDist/sequencer/releases/seq-${SEQUENCER_VERSION}.tar.gz
+
+tar zxf seq-${SEQUENCER_VERSION}.tar.gz
+
+cd ${EPICS_PATH}/support/seq-${SEQUENCER_VERSION}
+
+rm configure/RELEASE
+touch configure/RELEASE
+echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
+echo '-include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.local' >> configure/RELEASE
+echo '-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local' >> configure/RELEASE
+echo '-include $(TOP)/configure/RELEASE.local' >> configure/RELEASE
+
+make
+}
+
 Install_IOC(){
 
 # .. IOC install ..
@@ -581,6 +620,7 @@ Install_base
 Install_calc
 Install_asyn
 Install_stream
+Install_seq
 Install_IOC 
 }
 
@@ -590,6 +630,7 @@ Install_base
 Install_calc
 Install_asyn
 Install_stream
+Install_seq
 mkdir -p ${HOME}/epics/{downloads,R${EPICS_VERSION}}
 mkdir -p ${EPICS_PATH}/archiver_appliance
 prepare_install
@@ -619,6 +660,7 @@ export WGET_CMD="wget -c"
 export DOWNLOAD_SITE=${EPICS_PATH}
 export JDK_install_site=/opt
 export TOMCAT_VERSION="9.0.64"
+export SEQUENCER_VERSION="2.2.9"
 export MYSQL_USER="archappl"
 export MYSQL_USER_PW="archappl"
 export MYSQL_DB="archappl"
@@ -638,16 +680,14 @@ export VDCT_VERSION="2.7.0"
 while :
 do
     echo "Install option:"
-    echo "A . Whole system(EPICS_BASE, Asyn, Calc, StreamDevice)"
-    echo "Ac. Whole system(EPICS_BASE, Asyn, Calc, StreamDevice, Archappl)"
+    echo "A . Whole system(EPICS_BASE, Asyn, Calc, StreamDevice, Sequencer)"
+    echo "Ac. Whole system(EPICS_BASE, Asyn, Calc, StreamDevice, Sequencer, Archappl)"
     echo "1 . Prerequisition"
     echo "2 . EPICS_BASE_7.0.6.1"
-    echo "3 . Calc"
-    echo "4 . Asyn(Should be installed after calc was installed)"
-    echo "5 . StreamDevice(Should be installed after calc,asyn was installed)"
-    echo "6 . Archiver appliance"
-    echo "7 . RAON_Serial_IOC(Should be installed after whole system was installed)"
-    echo "8 . Create setEpicsEnv.sh in base folder(Should be executed after base was installed)"
+    echo "3 . Modules (Asyn, Calc, StreamDevice, Sequencer)"
+    echo "4 . Archiver appliance"
+    echo "5 . RAON_Serial_IOC(Should be installed after whole system was installed)"
+    echo "6 . Create setEpicsEnv.sh in base folder(Should be executed after base was installed)"
     echo "9 . exit"
     read -p "Type your option: " option_install
     case ${option_install} in
@@ -655,10 +695,11 @@ do
         Ac) Install_whole ;;
         1) Install_pre ;;
         2) Install_base ;;
-        3) Install_calc ;;
-        4) Install_asyn ;;
-        5) Install_stream ;;
-        6)  echo "Install the Archiver Appliance... "
+        3) Install_calc
+           Install_asyn
+           Install_stream
+	   Install_seq ;;
+        4)  echo "Install the Archiver Appliance... "
             mkdir -p ${HOME}/epics/{downloads,R${EPICS_VERSION}}
             mkdir -p ${EPICS_PATH}/archiver_appliance
             prepare_install
@@ -672,9 +713,10 @@ do
             start_script
             echo "Archiver Appliance installed at ${EPICS_PATH}/archiver_appliance"
         ;;
-        7) Install_IOC ;;
-        8) create_env ;;
+        5) Install_IOC ;;
+        6) create_env ;;
         9) exit 0 ;;
+	tst) Install_seq ;;
     esac
 done
 
