@@ -604,25 +604,25 @@ make clean
 
 make
 
-#cd ${EPICS_PATH}
+cd ${EPICS_PATH}
 
-#cp ${INSTALLER_PATH}/option/testIOC . -r
+cp ${INSTALLER_PATH}/option/testIOC . -r
 
-#cd testIOC
+cd testIOC
 
-#rm configure/RELEASE
-#touch configure/RELEASE
-## echo 'TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top' >> configure/RELEASE
-#echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
-#echo 'SUPPORT=$(EPICS_BASE)/../support' >> configure/RELEASE
-#echo 'ASYN=$(SUPPORT)/asyn' >> configure/RELEASE
-#echo 'STREAM=$(SUPPORT)/StreamDevice' >> configure/RELEASE
-#echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE
-#echo 'SNCSEQ=$(SUPPORT)/seq' >> configure/RELEASE
+rm configure/RELEASE
+touch configure/RELEASE
+# echo 'TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top' >> configure/RELEASE
+echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
+echo 'SUPPORT=$(EPICS_BASE)/../support' >> configure/RELEASE
+echo 'ASYN=$(SUPPORT)/asyn' >> configure/RELEASE
+echo 'STREAM=$(SUPPORT)/StreamDevice' >> configure/RELEASE
+echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE
+echo 'SNCSEQ=$(SUPPORT)/seq-$(SEQUENCER_VERSION}' >> configure/RELEASE
 
-#make clean
+make clean
 
-#make
+make
 
 }
 
@@ -698,7 +698,7 @@ do
     echo "2 . EPICS_BASE_7.0.6.1"
     echo "3 . Modules (Asyn, Calc, StreamDevice, Sequencer)"
     echo "4 . Archiver appliance"
-    echo "5 . RAON_Serial_IOC(Should be installed after whole system was installed)"
+    echo "5 . RAON_Serial_IOC, testIOC(for sequencer test)"
     echo "6 . Create setEpicsEnv.sh in base folder(Should be executed after base was installed)"
     echo "9 . exit"
     read -p "Type your option: " option_install
