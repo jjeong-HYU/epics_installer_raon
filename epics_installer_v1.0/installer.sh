@@ -553,23 +553,7 @@ make
 
 Install_seq()
 {
-
-# .. re2c install ..
-cd ${EPICS_PATH}/support
-re2ccheck="${EPICS_PATH}/support/re2c-3.0"
-if [ -e $re2ccheck ];then
-    rm -rf ${EPICS_PATH}/support/re2c-3.0
-    cd ${EPICS_PATH}/support
-else
-    cd ${EPICS_PATH}/support
-fi
-wget https://github.com/skvadrik/re2c/archive/refs/tags/3.0.tar.gz
-tar zxvf 3.0.tar.gz
-cd re2c-3.0
-mkdir .build
-cd .build
-cmake ..
-cmake --build .
+apt-get install re2c
 
 # .. sequencer install ..
 seqcheck="${EPICS_PATH}/support/seq-${SEQUENCER_VERSION}"
