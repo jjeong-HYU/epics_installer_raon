@@ -1,0 +1,27 @@
+testIOC_registerRecordDeviceDriver.o: \
+ testIOC_registerRecordDeviceDriver.cpp \
+ /home/musr4/epics/7.0.4.1/base//include/compilerDependencies.h \
+ /home/musr4/epics/7.0.4.1/base//include/compiler/gcc/compilerSpecific.h \
+ /home/musr4/epics/7.0.4.1/base//include/epicsStdlib.h \
+ /home/musr4/epics/7.0.4.1/base//include/libComAPI.h \
+ /home/musr4/epics/7.0.4.1/base//include/os/Linux/osdStrtod.h \
+ /home/musr4/epics/7.0.4.1/base//include/epicsTypes.h \
+ /home/musr4/epics/7.0.4.1/base//include/compilerDependencies.h \
+ /home/musr4/epics/7.0.4.1/base//include/errMdef.h \
+ /home/musr4/epics/7.0.4.1/base//include/iocsh.h \
+ /home/musr4/epics/7.0.4.1/base//include/iocshRegisterCommon.h \
+ /home/musr4/epics/7.0.4.1/base//include/shareLib.h \
+ /home/musr4/epics/7.0.4.1/base//include/registryCommon.h \
+ /home/musr4/epics/7.0.4.1/base//include/dbStaticLib.h \
+ /home/musr4/epics/7.0.4.1/base//include/dbFldTypes.h \
+ /home/musr4/epics/7.0.4.1/base//include/dbBase.h \
+ /home/musr4/epics/7.0.4.1/base//include/ellLib.h \
+ /home/musr4/epics/7.0.4.1/base//include/dbDefs.h \
+ /home/musr4/epics/7.0.4.1/base//include/recSup.h \
+ /home/musr4/epics/7.0.4.1/base//include/devSup.h \
+ /home/musr4/epics/7.0.4.1/base//include/link.h \
+ /home/musr4/epics/7.0.4.1/base//include/cantProceed.h \
+ /home/musr4/epics/7.0.4.1/base//include/dbJLink.h \
+ /home/musr4/epics/7.0.4.1/base//include/dbCoreAPI.h \
+ /home/musr4/epics/7.0.4.1/base//include/registryRecordType.h \
+ /home/musr4/epics/7.0.4.1/base//include/recSup.h

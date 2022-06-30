@@ -1,0 +1,8 @@
+epicsEnvSet("IOC","ioctestIOC")
+epicsEnvSet("TOP","/home/musr4/epics/testIOC")
+epicsEnvSet("EPICS_BASE","/home/musr4/epics/7.0.4.1/base/")
+epicsEnvSet("SUPPORT","/home/musr4/epicsjjy/support/")
+epicsEnvSet("ASYN","/home/musr4/epicsjjy/support//asyn")
+epicsEnvSet("STREAM","/home/musr4/epicsjjy/support//stream/StreamDevice")
+epicsEnvSet("CALC","/home/musr4/epicsjjy/support//calc")
+epicsEnvSet("SNCSEQ","/home/musr4/epicsjjy/support//seq")

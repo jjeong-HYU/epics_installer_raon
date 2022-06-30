@@ -1,0 +1,11 @@
+record (ai, "trigger")
+{
+}
+
+record (ao, "output1")
+{
+}
+
+record (ao, "output2")
+{
+}

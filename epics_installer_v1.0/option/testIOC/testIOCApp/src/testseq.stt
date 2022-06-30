@@ -1,0 +1,47 @@
+program testseq
+
+int trig;
+int outp1;
+int outp2;
+
+assign trig to "trigger";
+assign outp1 to "output1";
+assign outp2 to "output2";
+
+monitor trig;
+
+int n,i;
+
+ss scan
+{
+    state init
+    {
+        when()
+        {
+            n=0;
+            i=0;
+            printf("Seq started...");
+        } state Scan_Start
+    }
+    
+    state Scan_Start
+    {
+        when (trig<10)
+        {
+            if(trig>5)
+            {
+                outp1=0;
+                outp2=1;
+                pvPut(outp1);
+                pvPut(outp2);
+            }
+            if(trig<=5)
+            {
+                outp1=1;
+                outp2=0;
+                pvPut(outp1);
+                pvPut(outp2);
+            }
+        } state Scan_Start
+    }
+}
