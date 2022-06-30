@@ -397,7 +397,7 @@ apt -y update
 apt -y upgrade
 
 apt -y install make
-apt -y install git gcc g++ build-essential cmake
+apt -y install git gcc g++ build-essential cmake bison
 apt -y install libcap-dev python2.7
 update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
 }
