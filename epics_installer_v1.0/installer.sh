@@ -603,6 +603,27 @@ echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE
 make clean
 
 make
+
+cd ${EPICS_PATH}
+
+cp ${INSTALLER_PATH}/option/testIOC . -r
+
+cd testIOC
+
+rm configure/RELEASE
+touch configure/RELEASE
+# echo 'TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top' >> configure/RELEASE
+echo 'EPICS_BASE='${EPICS_PATH}'/base-7.0.6.1' >> configure/RELEASE
+echo 'SUPPORT=$(EPICS_BASE)/../support' >> configure/RELEASE
+echo 'ASYN=$(SUPPORT)/asyn' >> configure/RELEASE
+echo 'STREAM=$(SUPPORT)/StreamDevice' >> configure/RELEASE
+echo 'CALC=$(SUPPORT)/calc' >> configure/RELEASE
+echo 'SNCSEQ=$(SUPPORT)/seq' >> configure/RELEASE
+
+make clean
+
+make
+
 }
 
 Install_whole_exceptArchappl(){
