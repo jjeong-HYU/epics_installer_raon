@@ -633,7 +633,6 @@ Install_calc
 Install_asyn
 Install_stream
 Install_seq
-Install_IOC 
 }
 
 Install_whole(){
@@ -654,7 +653,6 @@ deploy
 change_template
 prepare_storage
 start_script
-Install_IOC 
 }
 
 # .. env variable setting ..
