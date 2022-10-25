@@ -1,0 +1,105 @@
+ReplyTimeout = 200;
+OutTerminator = LF;
+InTerminator = LF;
+
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+#address = ESC "0\$1"; # for RS485
+
+#handshake { wait 10; in ACK; out ENQ; wait 10; }
+
+set_channel
+{
+    out "CH %d";
+}
+
+get_channel
+{
+    out "CH?";
+    in "%d";
+}
+
+set_onoff
+{
+    out "SO:FU:OUTP %{OFF|ON}";
+    out "SU:FU:OUTP?";
+    in "$(\$2:STATUS-ONOFF){OFF|ON}";
+}
+
+get_voltagemax
+{
+    out "SO:VO:MA?";
+    in "%(\$2:STATUS-VOLTAGE_MAX)d"; 
+}
+
+set_voltagemax
+{
+    out "SO:VO:MA %d";
+    out "*SAV musr_raon"; 
+    get_voltagemax;
+}
+
+
+get_currentmax
+{
+    out "SO:CU:MA?";
+    in "%(\$2:STATUS-CURRENT_MAX)d"; 
+}
+
+set_currentmax
+{
+    out "SO:CU:MA %d";
+    out "*SAV musr_raon";
+    get_currentmax;
+}
+
+get_voltage_setting
+{
+    out "SO:VO?";
+    in "%(\$2:STATUS-VOLTAGE-SETTING)d"; 
+}
+
+set_voltage
+{
+    out "SO:VO %d";
+    out "*SAV musr_raon";
+    get_voltage_setting;
+}
+
+get_current_setting
+{
+    out "SO:CU?";
+    in "%(\$2:STATUS-CURRENT-SETTING)d"; 
+}
+
+set_current
+{
+    out "SO:CU %d";
+    out "*SAV musr_raon";
+    get_current_setting;
+}
+
+set_password
+{
+    out "password DEFAULT,musr_raon";
+}
+
+get_current
+{
+    out "ME:CU?";
+    in "%(\$2:STATUS-CURRENT)d"; 
+}
+
+get_voltage
+{
+    out "ME:VO?";
+    in "%(\$2:STATUS-VOLTAGE)d"; 
+}
+
+read_status
+{
+  get_current;
+  get_voltage;
+  get_currentmax;
+  get_voltagemax;
+}

@@ -1,0 +1,180 @@
+#Mandatory macros:
+# CONTROLLER  SM15K
+
+record (bi, "$(SENSOR):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@SM15K.proto read_status($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):READ-STATUS-SETTING")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@SM15K.proto read_setting($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "I/O Intr")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-ONOFF")
+{
+    field (ZNAM, "PowerSupply stopped")
+    field (ONAM, "PowerSupply running")
+}
+
+record (bo, "$(SENSOR):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@SM15K.proto set_onoff($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+# ##############################################
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE_MAX-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+
+record (ai, "$(SENSOR):STATUS-CURRENT_MAX_POS-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+
+record (ai, "$(SENSOR):STATUS-CURRENT_MAX_NEG-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+
+record (ai, "$(SENSOR):STATUS-POWER_MAX_POS-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "W")
+}
+
+
+record (ai, "$(SENSOR):STATUS-POWER_MAX_NEG-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "W")
+}
+
+record (ai, "$(SENSOR):STATUS-OUTPUT_VOLTAGE_STEPSIZE")
+{
+    field (DTYP, "stream")
+}
+
+record (ai, "$(SENSOR):STATUS-OUTPUT_CURRENT_STEPSIZE")
+{
+    field (DTYP, "stream")
+}
+record (ai, "$(SENSOR):STATUS-OUTPUT_POWER_STEPSIZE")
+{
+    field (DTYP, "stream")
+}
+
+# ########################################
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+
+record (ai, "$(SENSOR):STATUS-CURRENT_POS-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+
+record (ai, "$(SENSOR):STATUS-CURRENT_NEG-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+
+record (ai, "$(SENSOR):STATUS-POWER_POS-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "W")
+}
+
+
+record (ai, "$(SENSOR):STATUS-POWER_NEG-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "W")
+}
+
+# #############################################
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+record (ai, "$(SENSOR):STATUS-CURRENT")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+record (ai, "$(SENSOR):STATUS-POWER")
+{
+    field (DTYP, "stream")
+    field (EGU,  "W")
+}
+
+# ############################################
+
+
+
+record (ao, "$(SENSOR):SET-VOLTAGE")
+{
+    field (DTYP, "stream")
+    field (OUT, "@SM15K.proto set_voltage($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-CURRENT_POS")
+{
+    field (DTYP, "stream")
+    field (OUT, "@SM15K.proto set_current_pos($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-CURRENT_NEG")
+{
+    field (DTYP, "stream")
+    field (OUT, "@SM15K.proto set_current_neg($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-POWER_POS")
+{
+    field (DTYP, "stream")
+    field (OUT, "@SM15K.proto set_power_pos($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-POWER_NEG")
+{
+    field (DTYP, "stream")
+    field (OUT, "@SM15K.proto set_power_neg($(ADDR),$(SENSOR)) $(PORT)")
+}

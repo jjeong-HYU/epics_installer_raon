@@ -1,0 +1,116 @@
+#Mandatory macros:
+# CONTROLLER  MaxGauge name
+# SENSOR      Vaccum sensor name
+
+# Optional Macros:
+# WARN        Warn (MINOR) level, defaults to Inf (No warning)
+# ALARM       Alarm (MAJOR) level, defaults to Inf (No alarm)
+# MIN         Minimal range exponent, defaults to -11
+# MAX         Maximal range exponent, defaults to 3
+# PREC        Precision, defaults to -3 (3 digit exponential)
+
+# Many records are set by either $(CONTROLLER):READ-STATUS or $(CONTROLLER):READ-INFOS
+
+record (stringout, "$(CONTROLLER):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (OUT,  "@TC400.proto read_status($(ADDR=100),$(CONTROLLER)) $(PORT)")
+    field (SCAN, "$(FASTSCAN=1 second)")
+}
+
+record (stringin, "$(CONTROLLER):STATUS-ERROR")
+{
+}
+
+record (ao, "$(CONTROLLER):SET_RS485")
+{
+    field (DTYP, "stream")
+    field (OUT, "@TC400.proto set_rs485 $(PORT)")
+    field (SCAN, "I/O Intr")
+}
+
+record (calc, "$(CONTROLLER):STATUS-ROTATION_SPEED")
+{
+    field (CALC, "A")
+    field (EGU,  "Hz")
+    field (ASG,  "READONLY")
+}
+
+record (calc, "$(CONTROLLER):STATUS-SETTING_SPEED")
+{
+    field (CALC, "A")
+    field (EGU,  "Hz")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(CONTROLLER):STATUS-ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+}
+
+record (calcout, "$(CONTROLLER):STATUS-ONOFFG-UPDATER")
+{
+    field (CALC, "A==111111")
+    field (OUT,  "$(CONTROLLER):STATUS-ONOFF PP")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(CONTROLLER):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@TC400.proto set_onoff($(ADDR=100),$(CONTROLLER)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+record (bi, "$(CONTROLLER):STATUS-STANDBYG")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+}
+
+record (calcout, "$(CONTROLLER):STATUS-STANDBYG-UPDATER")
+{
+    field (CALC, "A==111111")
+    field (OUT,  "$(CONTROLLER):STANDBYG PP")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(CONTROLLER):STANDBY")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@TC400.proto set_standby($(ADDR=100),$(CONTROLLER)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+record (bi, "$(CONTROLLER):STATUS-MOTORPUMPG")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+}
+
+record (calcout, "$(CONTROLLER):STATUS-MOTORPUMPG-UPDATER")
+{
+    field (CALC, "A==111111")
+    field (OUT,  "$(CONTROLLER):MOTORPUMPG PP")
+    field (ASG,  "READONLY")
+}
+
+record (bo, "$(CONTROLLER):MOTORPUMP")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@TC400.proto set_motorpump($(ADDR=100),$(CONTROLLER)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+

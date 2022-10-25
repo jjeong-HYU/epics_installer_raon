@@ -1,0 +1,10 @@
+# RAON parameters
+
+global { CONTROLLER=musr:SM15K }
+file SM15K.db
+{ pattern
+  {CH SENSOR                                         ADDR      PORT }
+  { 1 "$(SENSOR1=$(P=$(CONTROLLER)-)$(S1=SENSOR1))"  "$(ADDR1=000)"        "$(PORT1=SM15K-1_PORT)"}
+  { 2 "$(SENSOR2=$(P=$(CONTROLLER)-)$(S2=SENSOR2))"  "$(ADDR2=000)"        "$(PORT2=SM15K-2_PORT)"}
+}
+

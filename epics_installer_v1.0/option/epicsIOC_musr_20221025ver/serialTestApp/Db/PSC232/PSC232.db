@@ -1,0 +1,107 @@
+#Mandatory macros:
+# CONTROLLER  PSC232
+
+record (bi, "$(SENSOR):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@PSC232.proto read_status($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (ao, "$(SENSOR):SET-CHANNEL")
+{
+    field (DTYP, "stream")
+    field (OUT, "@PSC232.proto set_channel($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (bi, "$(SENSOR):STATUS-ONOFF")
+{
+    field (ZNAM, "PowerSupply stopped")
+    field (ONAM, "PowerSupply running")
+}
+
+record (bo, "$(SENSOR):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@PSC232.proto set_onoff($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+record (bo, "$(SENSOR):PASSWORDSETTING")
+{
+    field (DTYP, "stream")
+    field (OUT,  "@PSC232.proto set_password($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+record (ao, "$(SENSOR):SET-VOLTAGE_MAX")
+{
+    field (DTYP, "stream")
+    field (OUT, "@PSC232.proto set_voltagemax($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-VOLTAGE")
+{
+    field (DTYP, "stream")
+    field (OUT, "@PSC232.proto set_voltage($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-CURRENT_MAX")
+{
+    field (DTYP, "stream")
+    field (OUT, "@PSC232.proto set_currentmax($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-CURRENT")
+{
+    field (DTYP, "stream")
+    field (OUT, "@PSC232.proto set_current($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE_MAX")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+record (ai, "$(SENSOR):STATUS-CURRENT_MAX")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+record (ai, "$(SENSOR):STATUS-CURRENT")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+record (ai, "$(SENSOR):STATUS-CURRENT-SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+
+
+

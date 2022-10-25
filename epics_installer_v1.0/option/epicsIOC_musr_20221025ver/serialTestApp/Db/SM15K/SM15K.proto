@@ -1,0 +1,158 @@
+ReplyTimeout = 200;
+OutTerminator = LF;
+InTerminator = LF;
+
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+#address = ESC "0\$1"; # for RS485
+
+#handshake { wait 10; in ACK; out ENQ; wait 10; }
+
+set_onoff
+{
+    out "OUTP %{OFF|ON}";
+    out "OUTP?";
+    in "$(\$2:STATUS-ONOFF){0|1}";
+}
+
+get_voltagemax_setting
+{
+    out "SOUR:VOL:MAX?";
+    in "%(\$2:STATUS-VOLTAGE_MAX-SETTING)d"; 
+}
+
+get_currentmax_pos_setting
+{
+    out "SOUR:CUR:MAX?";
+    in "%(\$2:STATUS-CURRENT_MAX_POS-SETTING)d"; 
+}
+
+get_currentmax_neg_setting
+{
+    out "SOUR:CUR:NEG:MAX?";
+    in "%(\$2:STATUS-CURRENT_MAX_NEG-SETTING)d"; 
+}
+
+get_powermax_pos_setting
+{
+    out "SOUR:POW:MAX?";
+    in "%(\$2:STATUS-POWER_MAX_POS-SETTING)d"; 
+}
+
+get_powermax_neg_setting
+{
+    out "SOUR:POW:NEG:MAX?";
+    in "%(\$2:STATUS-POWER_MAX_NEG-SETTING)d"; 
+}
+
+get_voltage_setting
+{
+    out "SOUR:VOL?";
+    in "%(\$2:STATUS-VOLTAGE-SETTING)d"; 
+}
+
+get_current_pos_setting
+{
+    out "SOUR:CUR?";
+    in "%(\$2:STATUS-CURRENT_POS-SETTING)d"; 
+}
+
+get_current_neg_setting
+{
+    out "SOUR:CUR:NEG?";
+    in "%(\$2:STATUS-CURRENT_NEG-SETTING)d"; 
+}
+
+get_power_pos_setting
+{
+    out "SOUR:POW?";
+    in "%(\$2:STATUS-POWER_POS-SETTING)d"; 
+}
+
+get_power_neg_setting
+{
+    out "SOUR:POW:NEG?";
+    in "%(\$2:STATUS-POWER_NEG-SETTING)d"; 
+}
+
+set_voltage
+{
+    out "SOUR:VOL %d";
+    get_voltage_Setting;
+}
+
+set_current_pos
+{
+    out "SOUR:CUR %d";
+    get_current_pos_Setting;
+}
+
+set_current_neg
+{
+    out "SOUR:CUR:NEG %d";
+    get_current_neg_Setting;
+}
+
+set_power_pos
+{
+    out "SOUR:POW %d";
+    get_power_pos_Setting;
+}
+
+set_power_neg
+{
+    out "SOUR:POW:NEG %d";
+    get_power_neg_Setting;
+}
+
+get_output_voltage_stepsize
+{
+    out "SOUR:VOL:STE?";
+    in "%(\$2:STATUS-OUTPUT_VOLTAGE_STEPSIZE)f";
+}
+
+get_output_current_stepsize
+{
+    out "SOUR:CUR:STE?";
+    in "%(\$2:STATUS-OUTPUT_CURRENT_STEPSIZE)f";
+}
+
+get_output_power_stepsize
+{
+    out "SOUR:POW:STE?";
+    in "%(\$2:STATUS-OUTPUT_POWER_STEPSIZE)f";
+}
+
+get_voltage
+{
+    out "MEAS:VOL?";
+    in "%(\$2:STATUS-VOLTAGE)f";
+}
+
+get_current
+{
+    out "MEAS:CUR?";
+    in "%(\$2:STATUS-CURRENT)f";
+}
+
+get_power
+{
+    out "MEAS:POW?";
+    in "%(\$2:STATUS-POWER)f";
+}
+
+read_status
+{
+  get_current;
+  get_voltage;
+  get_power;
+}
+
+read_setting
+{
+  get_voltagemax_setting;
+  get_currentmax_pos_setting;
+  get_currentmax_neg_setting;
+  get_powermax_pos_setting;
+  get_powermax_neg_setting;
+}

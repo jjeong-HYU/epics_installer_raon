@@ -1,0 +1,9 @@
+# RAON parameters
+
+global { CONTROLLER=musr:ET }
+file ET.db
+{ pattern
+  {CH SENSOR                                         ADDR      PORT }
+  { 1 "$(SENSOR1=$(P=$(CONTROLLER)-)$(S1=SENSOR1))"  "$(ADDR1=000)"        "$(PORT1=ET-1_PORT)"}
+  { 2 "$(SENSOR2=$(P=$(CONTROLLER)-)$(S2=SENSOR2))"  "$(ADDR2=000)"        "$(PORT2=ET-2_PORT)"}
+}

@@ -1,0 +1,9 @@
+# RAON parameters
+
+global { CONTROLLER=musr:A100L }
+file A100L.db
+{ pattern
+  {CH SENSOR                                         ADDR      PORT }
+  { 1 "$(SENSOR1=$(P=$(CONTROLLER))"  "$(ADDR1=000)"        "$(PORT1=A100L_PORT)"}
+}
+

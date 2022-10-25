@@ -1,0 +1,86 @@
+#Mandatory macros:
+# CONTROLLER  SM15K
+
+record (bi, "$(SENSOR):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@ET.proto read_status($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (bi, "$(SENSOR):STATUS-ONOFF")
+{
+    field (ZNAM, "Power Supply stopped")
+    field (ONAM, "Power Supply running")
+}
+
+record (bo, "$(SENSOR):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@ET.proto set_onoff($(ADDR),$(SENSOR)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+# ##############################################
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE_SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+
+record (ai, "$(SENSOR):STATUS-CURRENT_SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+record (ai, "$(SENSOR):STATUS-POWER_SETTING")
+{
+    field (DTYP, "stream")
+    field (EGU,  "W")
+}
+
+# ########################################
+
+record (ai, "$(SENSOR):STATUS-VOLTAGE")
+{
+    field (DTYP, "stream")
+    field (EGU,  "V")
+}
+
+
+record (ai, "$(SENSOR):STATUS-CURRENT")
+{
+    field (DTYP, "stream")
+    field (EGU,  "A")
+}
+
+# ############################################
+
+record (ao, "$(SENSOR):SET-VOLTAGE")
+{
+    field (DTYP, "stream")
+    field (OUT, "@ET.proto set_voltage($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-CURRENT")
+{
+    field (DTYP, "stream")
+    field (OUT, "@ET.proto set_current($(ADDR),$(SENSOR)) $(PORT)")
+}
+
+record (ao, "$(SENSOR):SET-POWER_LIMIT")
+{
+    field (DTYP, "stream")
+    field (OUT, "@ET.proto set_powerlimit($(ADDR),$(SENSOR)) $(PORT)")
+}
+

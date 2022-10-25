@@ -1,0 +1,47 @@
+ReplyTimeout = 200;
+InTerminator = CR;
+
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+#address = ESC "0\$1"; # for RS485
+
+#handshake { wait 10; in ACK; out ENQ; wait 10; }
+
+set2nominalspeed
+{
+    out "#\$1NSP" CR;
+    in "#\$1,ok"; 
+}
+
+set_onoff
+{
+    out "#\$1%{ACPOFF|ACPON}" CR;
+    in  "#\$1,ok";
+}
+
+read_status
+{
+    out "#\$1STA" CR;
+    in "#\$1,"
+       "%(\$2:STATUS-STATUS.A)d,"
+       "%(\$2:STATUS-FAULT.A)d,"
+       "%(\$2:STATUS-ALERT.A)d,"
+       "%(\$2:STATUS-PUMP_ROTATION_SPEED.A)d,"
+       "%(\$2:STATUS-MOTOR_POWER.A)d,"
+       "%(\$2:STATUS-RESERVED.A)d,"
+       "%(\$2:STATUS-FREQUENCY_CONVERTER_TEMP.A)d,"
+       "%(\$2:STATUS-RESERVER.A)d,"
+       "%(\$2:STATUS-PUMP_OPERATING_TIME.A)d";
+}
+
+read_address
+{
+    out "#???ADR" CR;
+    in "#%d,ok";
+}
+
+set_address
+{
+    out "#\$1ADR%d" CR;
+    in "#%d,ok";
+}

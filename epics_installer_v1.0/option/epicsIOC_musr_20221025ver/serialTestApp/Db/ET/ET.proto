@@ -1,0 +1,66 @@
+ReplyTimeout = 200;
+OutTerminator = LF;
+InTerminator = LF;
+
+# No outTerminator because we need to send ENQ clean or RS485 will mess up the reply.
+
+#address = ESC "0\$1"; # for RS485
+
+#handshake { wait 10; in ACK; out ENQ; wait 10; }
+
+set_onoff
+{
+    out "SB,%{S|R}";
+    out "SB";
+    in "$(\$2:STATUS-ONOFF){S|R}";
+}
+
+set_voltage
+{
+    out "UA,%d";
+}
+
+set_current
+{
+    out "IA,%d";
+}
+set_powerlimit
+{
+    out "PA,%d";
+}
+
+get_voltage
+{
+    out "MU";
+    in "MU,%(\$2:STATUS-VOLTAGE)d""V"; 
+}
+
+get_current
+{
+    out "MI";
+    in "MI,%(\$2:STATUS-CURRENT)d""A"; 
+}
+
+get_voltagelimit
+{
+    out "UA";
+    in "UA,%(\$2:STATUS-VOLTAGE_SETTING)d""A"; 
+}
+get_currentlimit
+{
+    out "IA";
+    in "IA,%(\$2:STATUS-CURRENT_SETTING)d""A"; 
+}
+get_powerlimit
+{
+    out "PA";
+    in "PA,%(\$2:STATUS-POWER_SETTING)d""A"; 
+}
+
+read_status
+{
+    out "STATUS";
+    in "STATUS,%14b$(\$2:STATUS-ONOFF)b%1b";
+    get_voltage;
+    get_current;
+}

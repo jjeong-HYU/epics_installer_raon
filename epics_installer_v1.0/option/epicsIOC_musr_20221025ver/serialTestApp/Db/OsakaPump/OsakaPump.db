@@ -1,0 +1,51 @@
+#Mandatory macros:
+# CONTROLLER  Osaka Pump
+
+record (bo, "$(CONTROLLER):ONOFF")
+{
+    field (ZNAM, "OFF")
+    field (ONAM, "ON")
+    field (DTYP, "stream")
+    field (OUT,  "@OsakaPump.proto set_onoff($(ADDR=000),$(CONTROLLER)) $(PORT)")
+    field (PRIO, "HIGH")
+    field (ASG,  "$(ASG=)")
+}
+
+record (bi, "$(CONTROLLER):READ-STATUS")
+{
+# reads ONOFFG (SEN), STATUS and PRESSURE (PRX)  of all sensors
+    field (DTYP, "stream")
+    field (INP,  "@OsakaPump.proto read_status($(CONTROLLER)) $(PORT)")
+    field (PRIO, "MEDIUM")
+    field (PINI, "YES")
+    field (SCAN, "$(FASTSCAN=1 second)")
+    field (ASG,  "READONLY")
+}
+
+record (ai, "$(CONTROLLER):STATUS-OPERATING_TIME")
+{
+    field (EGU,  "hours")
+    field (ASG,  "READONLY")
+}
+
+record (mbbi, "$(CONTROLLER):STATUS-PUMP_STATUS")
+{
+    field (ONST, "STANDBY")
+    field (TWST, "Acceleration")
+    field (THST, "Normal")
+    field (FRST, "Brake")
+    field (SXST, "Reacceleratio")
+    field (SVST, "Failure")
+    field (ASG,  "READONLY")
+}
+
+record (stringin, "$(CONTROLLER):STATUS-FAILURE")
+{
+    
+}
+
+record (ai, "$(CONTROLLER):STATUS-OUTPUT_FREQUENCY")
+{
+    field (EGU,  "Hz")
+    field (ASG,  "READONLY") 
+}

@@ -1,0 +1,10 @@
+# RAON parameters
+
+global { CONTROLLER=musr:PSC232 }
+file PSC232.db
+{ pattern
+  {CH SENSOR                                         ADDR      PORT }
+  { 1 "$(SENSOR1=$(P=$(CONTROLLER)-)$(S1=SENSOR1))"  "$(ADDR1=000)"        "$(PORT1=PSC232-1_PORT)"}
+  { 2 "$(SENSOR2=$(P=$(CONTROLLER)-)$(S2=SENSOR2))"  "$(ADDR2=000)"        "$(PORT2=PSC232-2_PORT)"}
+}
+
