@@ -1,6 +1,8 @@
 #! /bin/bash
 set -e
 
+CENT=$(cat /etc/os-release | grep -i centos > /dev/null && echo "centos" || echo "debian")
+export CENT
 
 function ini_func() { sleep 1; printf "\n>>>> You are entering in  : %s\n" "${1}"; }
 function end_func() { sleep 1; printf "\n<<<< You are leaving from : %s\n" "${1}"; }
@@ -393,13 +395,13 @@ chmod +x single_node_archappl.sh
 
 Install_pre(){
 
-apt -y update
-apt -y upgrade
+$SUDO_CMD apt -y update
+$SUDO_CMD apt -y upgrade
 
-apt -y install make
-apt -y install git gcc g++ build-essential cmake bison
-apt -y install libcap-dev python2.7
-update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+$SUDO_CMD apt -y install make
+$SUDO_CMD apt -y install git gcc g++ build-essential cmake bison
+$SUDO_CMD apt -y install libcap-dev python2.7
+$SUDO_CMD update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
 }
 
 create_env(){
@@ -447,7 +449,7 @@ tar zxvf base-7.0.6.1.tar.gz
 
 cd base-7.0.6.1
 
-make
+make -j$(nproc)
 
 create_env
 
@@ -553,7 +555,7 @@ make
 
 Install_seq()
 {
-apt-get install re2c
+$SUDO_CMD apt-get install re2c
 
 # .. sequencer install ..
 seqcheck="${EPICS_PATH}/support/seq-${SEQUENCER_VERSION}"
@@ -682,7 +684,7 @@ export SITE_SPECIFIC=$(pwd)/site_specific_content
 export EPICS_VERSION="7.0.6.1"
 export EPICS_PATH=${EPICS_PATH}
 export EPICS_BASE=${EPICS_PATH}/base-7.0.6.1
-export java_home==$(dirname $(dirname $(readlink -f $(which java))))
+export java_home=$(dirname $(dirname $(readlink -f $(which java))))
 export CONNECTOR_VERSION="5.1.49"
 export STRIPTOOL_VERSION="2_5_16_0"
 export VDCT_VERSION="2.7.0"
